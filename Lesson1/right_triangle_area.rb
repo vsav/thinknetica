@@ -11,35 +11,32 @@
 puts "Программа определения типа треугольника"
 puts "*" * 50
 print "Введите сторону треугольника (a): "
-a = gets.chomp.to_i
-until a.integer? && a > 0
-  print "Введите целое положительное число: "
-  a = gets.chomp.to_i
+a = gets.chomp.to_f
+until a > 0
+  print "Введите положительное число: "
+  a = gets.chomp.to_f
 end
 print "Введите сторону треугольника (b): "
-b = gets.chomp.to_i
-until b.integer? && b > 0
-  print "Введите целое положительное число: "
-  b = gets.chomp.to_i
+b = gets.chomp.to_f
+until b > 0
+  print "Введите положительное число: "
+  b = gets.chomp.to_f
 end
 print "Введите сторону треугольника (c): "
-c = gets.chomp.to_i
-until c.integer? && c > 0
-  print "Введите целое положительное число: "
-  c = gets.chomp.to_i
+c = gets.chomp.to_f
+until c > 0
+  print "Введите положительное число: "
+  c = gets.chomp.to_f
 end
 
-sides = [a, b, c].sort!
-a = sides[0]
-b = sides[1]
-c = sides[2]
+a, b, c = [a, b, c].sort
 
-#puts "a = #{a} b = #{b} c = #{c}"
+puts "a = #{a} b = #{b} c = #{c}"
 
 if a**2 + b**2 == c**2
   puts "Треугольник прямоугольный"
-elsif a == b && b == c && a == c
-  puts "Треугольник равносторонний" 
+elsif a == b && b == c
+  puts "Треугольник равнобедренный и равносторонний, но не прямоугольный" 
 elsif a == b || b == c || a == c
   puts "Треугольник равнобедренный"
 end
