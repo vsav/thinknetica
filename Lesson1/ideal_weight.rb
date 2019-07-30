@@ -8,7 +8,7 @@ print "Какой у Вас рост? "
 begin
   user_height = Integer(gets)
   rescue ArgumentError
-    print "Вес должен быть целым числом: "
+    print "Рост должен быть целым числом: "
     retry
 end
 ideal_weight = user_height - 110
