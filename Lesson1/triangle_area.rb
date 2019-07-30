@@ -4,16 +4,16 @@
 puts "Программа рассчета площади треугольника"
 puts "*" * 50
 print "Введите основание треугольника (a): "
-a = gets.chomp.to_i
-until a.integer? && a > 0
-  print "Введите целое положительное число: "
-  a = gets.chomp.to_i
+a = gets.chomp.to_f
+until a > 0 
+  print "Введите положительное число: "
+  a = gets.chomp.to_f
 end  
 print "Введите высоту треугольника (h): "
-h = gets.chomp.to_i
-until h.integer? && h > 0
-  print "Введите целое положительное число: "
-  h = gets.chomp.to_i
+h = gets.chomp.to_f
+until h > 0
+  print "Введите положительное число: "
+  h = gets.chomp.to_f
 end  
 area = 0.5 * a * h
 puts "Площадь треугольника: #{area}"
