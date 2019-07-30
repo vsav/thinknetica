@@ -11,41 +11,42 @@
 
 puts "Программа вычисления квадратного уравнения"
 puts "*"*50
-puts
+
 print "Введите коэффициет a: "
-a = gets.chomp.to_i
-until a.integer? && a != 0
-  print "Коэффициент a должен быть целым числом и не должен быть равен 0: "
-  a = gets.chomp.to_i
+a = gets.chomp.to_f
+until a != 0
+  print "Коэффициент a должен быть числом и не должен быть равен 0: "
+  a = gets.chomp.to_f
 end
+
 print "Введите коэффициет b: "
 begin
-  b = Integer(gets)
+  b = Float(gets)
   rescue ArgumentError
-    print "Коэффициент b должен быть целым числом: "
+    print "Коэффициент b должен быть числом: "
     retry
 end
 print "Введите коэффициет c: "
 begin
-  c = Integer(gets)
+  c = Float(gets)
   rescue ArgumentError
-    print "Коэффициент c должен быть целым числом: "
+    print "Коэффициент c должен быть числом: "
     retry
 end
 
-d = b ** 2 - (4 * a * c)
+d = b**2 - (4 * a * c)
+puts "Дискриминант = #{d}"
+
 
 if d > 0
-  x1 = (- b + Math.sqrt(d)) / (2 * a)
-  x2 = (- b - Math.sqrt(d)) / (2 * a)
-  puts "Дискриминант: #{d}"
-  puts "x1:  #{x1}"
-  puts "x2:  #{x2}"
+  sqrtd = Math.sqrt(d)
+  x1 = (- b + sqrtd) / (2 * a)
+  x2 = (- b - sqrtd) / (2 * a)
+  puts "x1 = #{x1.round(2)}"
+  puts "x2 = #{x2.round(2)}"
 elsif d == 0
   x = - b / (2 * a)
-  puts "Дискриминант:  #{d}"
-  puts "x: #{x}"
+  puts "x1 = x2 = #{x.round(2)}"
 else 
-  puts "Дискриминант:  #{d}"
   puts "Корней нет"
 end
