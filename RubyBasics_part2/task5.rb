@@ -37,14 +37,20 @@ until dd >= 1 && dd <= month_days
   dd = gets.chomp.to_i
 end
 
-#(mm - 1).times do |i|
-#  days_total += months.values[i]
-#end
-
-#days_total = months.values[0..(mm - 1)].reduce(0) { |sum, days| sum + days }
-
 (mm - 1).times do |i|
   days_total = months.values[0..i].reduce(0) { |sum, days| sum + days }
 end
 
 puts "С начала года прошло #{days_total + dd} дней"
+
+=begin
+  (mm - 1).times do |i|
+    days_total += months.values[i]
+  end
+
+  days_total = months.values[0..(mm - 1)].reduce(0) { |sum, days| sum + days } - undefined method `reduce' for 31:Integer
+
+  (mm - 1).times do |i|
+    days_total = months.values[0..i].sum
+  end
+=end
