@@ -9,7 +9,9 @@ class Station
   def accept_train(train)
     @trains_on_station << train
     train.speed = 0
-    train.current_station = self.name
+    train.current_station = @name
+    puts "Поезд № #{train.number} прибыл но станцию '#{@name}'"
+    puts
   end
   
   def trains_list
@@ -20,20 +22,26 @@ class Station
         puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' | количество вагонов: #{train.length}"
       end
     end
+    puts
   end
 
   def trains_by_type(train_type)
     puts "Поезда типа #{train_type} на станции '#{@name}' в данный момент: "
     puts '*' * 67
+    puts
     @trains_on_station.each do |train|
       if train.type.include?(train_type)
         puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' | количество вагонов: #{train.length}"
       end
     end
+    puts
   end
 
-  def send_train
+  def send_train(train)
     train.speed = 60
+    @trains_on_station.delete(train)
+    puts "Поезд № #{train.number} был отправлен со станции '#{@name}' в сторону станции"
+    puts
   end
 
 end
@@ -70,12 +78,10 @@ class Train
   attr_accessor :length, :speed, :current_station
 
   def initialize(number, type, length)
-    
     @number = number
     @type = type
     @length = length
     @speed = 0
-    #@trains << self
   end
 
   def speed_up
@@ -163,4 +169,6 @@ station1.accept_train(train8)
 #station1.trains_by_type('cargo')
 station1.trains_list
 
-puts train1.current_station
+#puts train1.current_station
+station1.send_train(train1)
+station1.trains_list
