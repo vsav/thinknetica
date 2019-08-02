@@ -10,7 +10,7 @@ class Train
   end
 
   def speed_up
-    @speed = 60
+    @speed += 20
     puts "Поезд № #{@number} набирает скорость до: #{@speed}"
   end
 
@@ -48,12 +48,28 @@ class Train
     @route.stations.first.accept_train(self)
   end
 
-  def next_station 
-    @next_station = @route.stations[@station_index + 1]
+  def first_station?
+    @current_station == @route.stations.first
+  end
+
+  def last_station?
+    @current_station == @route.stations.last
+  end
+
+  def next_station
+    if last_station?
+      puts "Поезд находится на конечной станции маршрута"
+    else
+      @next_station = @route.stations[@station_index + 1]
+    end
   end
 
   def prev_station
-    @prev_station = @route.stations[@station_index - 1]
+    if first_station?
+      puts "Поезд находится на начальной станции маршрута"
+    else
+      @prev_station = @route.stations[@station_index - 1]
+    end
   end
 
   def near_stations
@@ -80,12 +96,20 @@ class Train
   end
   
   def move_next
-    @station_index += 1
-    move
+    if last_station?
+      puts "Поезд находится на конечной станции маршрута"
+    else
+      @station_index += 1
+      move
+    end
   end
 
   def move_prev
-    @station_index -= 1
-    move
+    if first_station?
+      puts "Поезд находится на начальной станции маршрута"
+    else
+      @station_index -= 1
+      move
+    end
   end
 end

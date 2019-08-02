@@ -46,12 +46,21 @@ route2.add_station(station11)
 system('clear')
 
 train1.get_route(route1)
-train2.get_route(route1)
+#train2.get_route(route1)
 
-
-#train1.near_stations
-station1.trains_list
+train1.move_prev
 train1.move_next
+train1.move_next
+train1.move_next
+train1.move_next
+train1.move_next
+train1.move_next
+#train1.near_stations
+#station1.trains_list
+#train1.move_next
+
+=begin
+
 station1.trains_list
 station2.trains_list
 #train1.near_stations
@@ -113,3 +122,4 @@ train1.rem_carriage
 
 route1.rem_station(station1)
 route1.rem_station(station10)
+=end
