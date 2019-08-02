@@ -10,30 +10,28 @@ class Station
     @trains_on_station << train
     train.speed = 0
     train.current_station = @name #####
-    puts "Поезд № #{ train.number } прибыл на станцию '#{ @name }'"
+    puts "Поезд № #{train.number} прибыл на станцию '#{@name}'"
     puts
   end
   
   def trains_list
-    puts "Все поезда на станции '#{ @name }' в данный момент: "
+    puts "Все поезда на станции '#{@name}' в данный момент: "
     puts '*' * 67
     @trains_on_station.each do |train|
       if train.current_station.include?(@name)
-        puts "№ поезда: #{ train.number } | тип поезда: '#{ train.type }' | количество вагонов: #{ train.length }"
-      else
-        #@trains_on_station.delete(train)
+        puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' | количество вагонов: #{train.length}"
       end
     end
     puts
   end
 
   def trains_by_type(train_type)
-    puts "Поезда типа #{ train_type } на станции '#{ @name }' в данный момент: "
+    puts "Поезда типа #{train_type} на станции '#{@name}' в данный момент: "
     puts '*' * 67
     puts
     @trains_on_station.each do |train|
       if train.type.include?(train_type) #####
-        puts "№ поезда: #{ train.number } | тип поезда: '#{ train.type }' | количество вагонов: #{ train.length }"
+        puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' | количество вагонов: #{train.length}"
       end
     end
     puts
@@ -67,8 +65,8 @@ class Route
   end
 
   def show_route
-    puts "Станции на маршруте #{ @route[0].name } - #{ @route[-1].name }"
-    @route.each_with_index { |station, i| puts "#{ i + 1 }. #{ station.name }" }
+    puts "Станции на маршруте #{@route[0].name} - #{@route[-1].name}"
+    @route.each_with_index { |station, i| puts "#{i + 1}. #{station.name}" }
     puts
   end
 
@@ -91,20 +89,20 @@ class Train
 
   def speed_up
     @speed = 60
-    puts "Поезд № #{ @number } набирает скорость до: #{ @speed }"
+    puts "Поезд № #{@number} набирает скорость до: #{@speed}"
   end
 
   def current_speed
-    puts "Текущая скорость: #{ @speed }"
+    puts "Текущая скорость: #{@speed}"
   end
 
   def brake
     @speed = 0
-    puts "Поезд № #{ @number } остановлен"
+    puts "Поезд № #{@number} остановлен"
   end
 
   def show_length
-    puts "Текущее количество вагонов: #{ @length }"
+    puts "Текущее количество вагонов: #{@length}"
   end
 
   def add_carriage
@@ -124,26 +122,27 @@ class Train
     @next_station = @route[@station_index + 1]
     @prev_station = @route[@station_index - 1]
     
-    puts "Поезд № #{ @number } получил маршрут от станции #{ @route.first.name } до станции #{ @route.last.name }"
+    puts "Поезд № #{@number} получил маршрут от станции #{@route.first.name} до станции #{@route.last.name}"
     sleep 1
-    puts "Поезд № #{ @number } направляется на станцию #{ @route.first.name }"
+    puts "Поезд № #{@number} направляется на станцию #{@route.first.name}"
     sleep 1
     @current_station.accept_train(self)
   end
 
   def near_stations
-    puts "Поезд № #{ @number } находится на станции #{ self.current_station }"
+    puts "Поезд № #{@number} находится на станции #{current_station}"
     if @station_index > 0 
-      puts "Предыдущая станция на маршруте - #{ @route[@station_index - 1].name }"
+      puts "Предыдущая станция на маршруте - #{@route[@station_index - 1].name}"
     else
       puts "Это первая станция на маршруте"
     end
-    puts "Следующая станция на маршруте - #{ @route[@station_index + 1].name }"
+    puts "Следующая станция на маршруте - #{@route[@station_index + 1].name}"
   end
 
-  def move
+  def move 
+    @route[@station_index].trains_on_station.delete(self) 
     @next_station = @route[@station_index]
-    puts "Поезд № #{ @number } был отправлен со станции '#{ @current_station }' в сторону станции '#{ @next_station.name }' "
+    puts "Поезд № #{@number} был отправлен со станции '#{@current_station}' в сторону станции '#{@next_station.name}' "
     @prev_station, @current_station = @current_station, @next_station
     @current_station.accept_train(self)
   end
@@ -188,6 +187,8 @@ train6 = Train.new('g947', 'passenger', 34)
 train7 = Train.new('c316', 'passenger', 30)
 train8 = Train.new('h428', 'passenger', 28)
 train9 = Train.new('j155', 'passenger', 29)
+train10 = Train.new('b237', 'cargo', 30)
+train11 = Train.new('z317', 'cargo', 27)
 
 route1 = Route.new(station1, station7)
 route1.add_station(station2)
@@ -201,6 +202,7 @@ route2.add_station(station11)
 system('clear')
 
 train1.get_route(route1)
+train2.get_route(route1)
 
 train1.near_stations
 train1.move_next
@@ -212,7 +214,18 @@ train1.move_prev
 train1.near_stations
 train1.move_prev
 train1.near_stations
-
+=begin
+train2.near_stations
+train2.move_next
+train2.near_stations
+train2.move_next
+train2.near_stations
+train2.move_next
+train2.move_prev
+train2.near_stations
+train2.move_prev
+train2.near_stations
+=end
 route1.show_route
 
 route2.show_route
@@ -229,12 +242,17 @@ station1.accept_train(train5)
 station1.accept_train(train6)
 station1.accept_train(train7)
 station1.accept_train(train8)
+station1.accept_train(train10)
+#station1.accept_train(train11)
 
 station1.trains_list
 station1.trains_by_type('cargo')
 station1.trains_by_type('passenger')
 
-train2.get_route(route1)
+
 station1.send_train(train2)
 station2.trains_list
-
+station1.trains_list
+station3.trains_list
+station4.trains_list
+station5.trains_list
