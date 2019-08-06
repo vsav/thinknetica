@@ -25,11 +25,13 @@ class Station
     puts "Поезда типа #{train_type} на станции '#{@name}' в данный момент: "
     puts '*' * 67
     puts
-    @trains.each do |train|
-      if train.type == train_type
-        puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' | количество вагонов: #{train.carriages.size}"
-      end
+    #@trains.each do |train|
+    #  if train.type == train_type
+    @trains.select do |train|
+      train.type == train_type
+      puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' | количество вагонов: #{train.carriages.size}"
     end
+    #end
     puts
   end
 
