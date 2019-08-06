@@ -10,7 +10,7 @@ class Route
     puts "Станция #{station.name} добавлена в маршрут"
   end
 
-  def rem_station(station)
+  def remove_station(station)
     if @stations[0] == station || @stations[-1] == station
       puts "Можно удалять только промежуточные станции маршрута"
     elsif @stations.include?(station)
