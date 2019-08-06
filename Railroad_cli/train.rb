@@ -23,7 +23,7 @@ class Train
     end
   end
 
-  def rem_carriage(carriage)
+  def remove_carriage(carriage)
     if @speed > 0
       puts "Невозможно отцепить вагон пока поезд движется"  
     elsif @carriages.include? carriage
