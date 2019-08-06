@@ -109,12 +109,12 @@ class RailRoad
           train_carriages
           print "Выберите вагон: "
           carriage = gets.chomp.to_i
-          @train.rem_carriage(@train.carriages[carriage - 1])
+          @train.remove_carriage(@train.carriages[carriage - 1])
           train_menu
         when 4
           direction = ''
           until direction == 0
-            unless @train.route.nil?
+            unless @train.route.nil? #
               move_train_menu
               direction = gets.chomp.to_i
               if direction == 1
@@ -137,26 +137,26 @@ class RailRoad
   end
   
   def all_trains
-    @trains.each_with_index do |train, index|
-      puts "#{index + 1}. #{train.number} | #{train.type}"
+    @trains.each.with_index(1) do |train, index| #индексы начнутся не с 0, а с 1
+      puts "#{index}. #{train.number} | #{train.type}"
     end
   end
 
   def all_carriages
-    @unused_carriages.each_with_index do |carriage, index|
-      puts "#{index + 1}. #{carriage.number} | #{carriage.type}"
+    @unused_carriages.each.with_index(1) do |carriage, index|
+      puts "#{index}. #{carriage.number} | #{carriage.type}"
     end
   end
 
   def train_carriages
-    @train.carriages.each_with_index do |carriage, index|
-      puts "#{index + 1}. #{carriage.number} - #{carriage.type}"
+    @train.carriages.each.with_index(1) do |carriage, index|
+      puts "#{index}. #{carriage.number} - #{carriage.type}"
     end
   end
 
   def all_stations
-    @stations.each_with_index do |station, index|
-      puts "#{index + 1}. #{station.name}"
+    @stations.each.with_index(1) do |station, index|
+      puts "#{index}. #{station.name}"
     end
   end
 
@@ -251,8 +251,8 @@ class RailRoad
   end
 
   def all_routes
-    @routes.each_with_index do |route, index|
-      puts "#{index + 1}. #{route.stations[0].name} - #{route.stations[-1].name}"
+    @routes.each.with_index(1) do |route, index|
+      puts "#{index}. #{route.stations[0].name} - #{route.stations[-1].name}"
       puts "Включает станции: "
       route.stations.each do |station|
         puts "#{station.name}"
@@ -271,7 +271,7 @@ class RailRoad
   end
 
   def main_menu
-    system('clear')
+    #system('clear')
     puts 'Программа управления железнодорожной станцией'
     puts 'Выберите пункт меню, нажав соответствующую цифру'
     puts '1. Вывести информацию о поездах'
