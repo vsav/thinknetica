@@ -28,8 +28,4 @@ class Route
     @stations.each_with_index { |station, i| puts "#{i + 1}. #{station.name}" }
     puts
   end
-
-  #def stations_list
-  #  @stations
-  #end
 end

@@ -8,7 +8,7 @@ class CargoTrain < Train
     @carriages = []
     @engine = engine
     @speed = 0
-    @@all_trains << self
+    @@all_trains[self.number] = self
     register_instance
   end
   

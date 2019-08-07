@@ -8,7 +8,7 @@ class PassengerTrain < Train
     @carriages = []
     @range = range
     @speed = 0
-    @@all_trains << self
+    @@all_trains[self.number] = self
     register_instance
   end
 

@@ -4,11 +4,10 @@ class Train
   attr_reader :number, :type
   attr_accessor :carriages, :speed, :current_station, :route
   
-  @@all_trains = []
+  @@all_trains = {}
 
   def self.find(number)
-    found = @@all_trains.select { |train| train.number == number }
-    puts found
+    puts @@all_trains[number]
   end
 
   def self.all
@@ -30,7 +29,6 @@ class Train
       puts "Тип вагона не совпадает с типом поезда"
     else
       @carriages << carriage
-      #@unused_carriages.delete(carriage)
       puts "Вагон прицеплен"
       show_length
     end
@@ -41,7 +39,6 @@ class Train
       puts "Невозможно отцепить вагон пока поезд движется"  
     elsif @carriages.include? carriage
       @carriages.delete(carriage)
-      #@unused_carriages << carriage
       puts "Вагон отцеплен"
       show_length
     else

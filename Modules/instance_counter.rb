@@ -7,9 +7,6 @@ module InstanceCounter
   module ClassMethods
     attr_accessor :instances
 
-    def self.instances
-      @instances
-    end
   end
 
   module InstanceMethods

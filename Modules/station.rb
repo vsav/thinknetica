@@ -2,20 +2,16 @@ class Station
   include InstanceCounter
   attr_reader :name, :trains
 
-  @all_stations = []
+  @@all_stations = []
 
   def self.all
-    puts @all_stations.inspect
-  end
-
-  def self.collect(station)
-    @all_stations << station
+    @@all_stations
   end
 
   def initialize(name)
     @name = name
     @trains = []
-    self.class.collect(self)
+    @@all_stations << self
     register_instance
   end
 

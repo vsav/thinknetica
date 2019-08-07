@@ -17,6 +17,7 @@ rr.seed
 system('clear')
 puts "Найти поезд: "
 Train.find('a127')
+Train.find('p032')
 puts
 puts "Количество экземпляров: "
 puts "Route: #{Route.instances}"
@@ -24,5 +25,4 @@ puts "CargoTrain: #{CargoTrain.instances}"
 puts "PassengerTrain: #{PassengerTrain.instances}"
 puts "Station: #{Station.instances}"
 puts
-puts "Все созданные экземпляры Station"
 Station.all
