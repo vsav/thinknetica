@@ -18,8 +18,9 @@ class Carriage
   protected
 
   def validate!
-    raise "Номер вагона не может быть пустым" if number.nil?
+    raise "Номер вагона не может быть пустым" unless number
     raise "Номер вагона имеет неправильный формат" if number !~ CARRIAGE_NUMBER_FORMAT
+
     true
   end
 end

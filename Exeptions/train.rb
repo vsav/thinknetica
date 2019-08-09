@@ -8,9 +8,13 @@ class Train
   
   @@all_trains = {}
 
-  def initialize(number)
+  def initialize(number, type = 'cargo')
     @number = number
+    @carriages = []
+    @speed = 0
     validate!
+    @@all_trains[number] = self
+    register_instance
   end
 
   def valid?
@@ -146,7 +150,7 @@ class Train
     end
 
     def validate!
-      raise "Номер поезда не может быть пустым" if number.nil?
+      raise "Номер поезда не может быть пустым" unless number
       raise "Номер поезда имеет неправильный формат" if number !~ TRAIN_NUMBER_FORMAT
       true
     end

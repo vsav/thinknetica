@@ -18,8 +18,8 @@ rr.main_menu
 
 #system('clear')
 #puts "Найти поезд: "
-#Train.find('a127')
-#Train.find('p032')
+#Train.find('a1278')
+#Train.find('p03-29')
 #puts
 #puts "Количество экземпляров: "
 #puts "Route: #{Route.instances}"

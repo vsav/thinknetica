@@ -59,8 +59,9 @@ class Station
   protected
 
   def validate!
-    raise "Название станции должно содержать хотя бы 2 буквы" if name.nil? || name.length < 2
+    raise "Название станции должно содержать хотя бы 2 буквы" unless name || name.length < 2
     raise "Название станции имеет неправильный формат" if name !~ STATION_NAME_FORMAT
+
     true
   end
 end
