@@ -37,7 +37,7 @@ class RailRoad
         all_routes
         print 'Выберите маршрут: '
         route = gets.chomp.to_i
-        @train.set_route(@routes[route - 1])
+        @train.route=(@routes[route - 1])
         train_menu
       when 2
         all_carriages
@@ -54,20 +54,16 @@ class RailRoad
       when 4
         direction = ''
         until direction == 0
-          unless @train.route.nil? #
-            move_train_menu
-            direction = gets.chomp.to_i
-            if direction == 1
-              @train.move_next
-            elsif direction == 2
-              @train.move_prev
-            end
-          else
+          if @train.route.nil?
             puts 'Сначала назначьте маршрут'
             train_menu
+          else
+            move_train_menu
+            direction = gets.chomp.to_i
+            @train.move_next if direction == 1
+            @train.move_prev if direction == 2
           end
         end
-        #main_menu
       when 5
         train_menu
       when 0
@@ -90,7 +86,7 @@ class RailRoad
 
   def train_carriages
     @train.carriages.each.with_index(1) do |carriage, index|
-      puts "#{index}. #{carriage.number} - #{carriage.type}"
+      puts "#{index}. #{carriage.number} | #{carriage.type}"
     end
   end
 
@@ -141,8 +137,8 @@ class RailRoad
       number = gets.strip
       train = Train.new(number)
       train.valid?
-    rescue => error
-      puts "#{error}"
+    rescue => e
+      puts "#{e}"
       puts 'Номер поезда должен иметь следующий формат: ' \
            'три буквы или цифры в любом порядке, необязательный дефис ' \
            'и еще 2 буквы или цифры после дефиса. '
@@ -152,8 +148,8 @@ class RailRoad
       print 'Выберите тип поезда: 1 - cargo, 2 - passenger):'
       type = gets.strip
       raise unless type == '1' || type == '2'
-    rescue => error
-      puts "#{error}"
+    rescue => e
+      puts "#{e}"
       puts 'Введите 1 или 2'
       retry
     end
@@ -174,7 +170,8 @@ class RailRoad
         @trains << train if train.valid?
       end
       raise unless choise == '1' || choise == '2'
-    rescue
+    rescue => e
+      puts "#{e}"
       puts 'Введите 1 или 2'
       retry
     end
@@ -184,13 +181,12 @@ class RailRoad
       puts 'Создать еще один поезд? '
       print '1 - Создать, 0 - Главное меню: '
       choise = gets.strip
-    raise unless choise == '1' || choise == '0'
-    rescue => error
-      puts "#{error}"
+      raise unless choise == '1' || choise == '0'
+    rescue => e
+      puts "#{e}"
       puts 'Введите 1 или 2'
       retry
     end
-
     if choise == '1'
       create_train
     elsif choise == '0'
@@ -214,15 +210,16 @@ class RailRoad
 
     print 'Выберите пункт меню: '
     user_input = gets.chomp.to_i
-    if user_input == 0
+    case user_input
+    when 0
       main_menu
-    elsif user_input == 1
+    when 1
       create_route
       route_menu
-    elsif user_input == 2
+    when 2
       all_routes
       route_menu
-    elsif user_input == 3
+    when 3
       all_routes
       puts
       print 'Выберите маршрут '
@@ -265,24 +262,21 @@ class RailRoad
     puts '4. Создать новый поезд'
     puts '0. Выход'
     user_input = gets.chomp.to_i
-    until user_input == 0
+    case user_input
+    when 0
+      puts 'Goodbye!'
+      exit
+    when 1
       system('clear')
-      if user_input == 1
-        system('clear')
-        train_menu
-      elsif user_input == 2
-        system('clear')
-        station_menu
-      elsif user_input == 3
-        system('clear')
-        route_menu
-      elsif user_input == 4
-        create_train
-      else
-        main_menu
-      end
+      train_menu
+    when 2
+      system('clear')
+      station_menu
+    when 3
+      system('clear')
+      route_menu
+    when 4
+      create_train
     end
-    puts 'Bye!'
-    exit
   end
 end

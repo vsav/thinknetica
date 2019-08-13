@@ -54,5 +54,3 @@ rr.stations.each do |station|
   end
   puts '*' * 80
 end
-
-

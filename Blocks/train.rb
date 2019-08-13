@@ -1,8 +1,8 @@
 class Train
   include Manufacturer
   include InstanceCounter
-  attr_reader :number, :type
-  attr_accessor :carriages, :speed, :current_station, :route
+  attr_reader :number, :type, :route
+  attr_accessor :carriages, :speed, :current_station
 
   TRAIN_NUMBER_FORMAT = /^[a-z\d]{3}(-)*[a-z\d]{2}$/i
 
@@ -61,7 +61,7 @@ class Train
     end
   end
 
-  def set_route(route)
+  def route=(route)
     @route = route
     @current_station = @route.stations.first
     @station_index = @route.stations.index(@current_station)
@@ -133,9 +133,10 @@ class Train
     @speed = 0
   end
 
-  def each_carriage
+  def each_carriage(&block)
     if block_given?
-      @carriages.each { |carriage| yield(carriage) }
+      #@carriages.each { |carriage| yield(carriage) }
+      @carriages.each(&block)
     else
       puts 'Блок не передан'
     end
