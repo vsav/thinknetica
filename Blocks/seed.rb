@@ -8,7 +8,7 @@ module Seed
     @stations << station5 = Station.new('Окуловка')
     @stations << station6 = Station.new('Малая Вишера')
     @stations << station7 = Station.new('Санкт-Петербург')
-  
+
     # Omsk - Nobosibirsk
     @stations << station8 = Station.new('Омск')
     @stations << station9 = Station.new('Татарская')
@@ -19,19 +19,19 @@ module Seed
     @stations << station14 = Station.new('Чулымская')
     @stations << station15 = Station.new('Обь')
     @stations << station16 = Station.new('Новосибирск')
-  
-    @trains << train1 = CargoTrain.new('a1278', 'дизель')
-    @trains << train2 = CargoTrain.new('f3422', 'дизель')
-    @trains << train3 = CargoTrain.new('d18-23', 'дизель')
-    @trains << train4 = CargoTrain.new('d3121', 'дизель')
-    @trains << train5 = PassengerTrain.new('p03-29', 'пригородный')
-    @trains << train6 = PassengerTrain.new('g9470', 'пригородный')
-    @trains << train7 = PassengerTrain.new('c3216', 'дальнего следования')
-    @trains << train8 = PassengerTrain.new('h42-91', 'дальнего следования')
-    @trains << train9 = PassengerTrain.new('j15-3g', 'дальнего следования')
-    @trains << train10 = CargoTrain.new('b2373', 'электро')
-    @trains << train11 = CargoTrain.new('z31-7z', 'электро')
-  
+
+    @trains << train1 = CargoTrain.new('a1278', engine: 'дизель')
+    @trains << train2 = CargoTrain.new('f3422', engine: 'дизель')
+    @trains << train3 = CargoTrain.new('d18-23', engine: 'дизель')
+    @trains << train4 = CargoTrain.new('d3121', engine: 'дизель')
+    @trains << train5 = PassengerTrain.new('p03-29', range: 'пригородный')
+    @trains << train6 = PassengerTrain.new('g9470', range: 'пригородный')
+    @trains << train7 = PassengerTrain.new('c3216', range: 'дальнего следования')
+    @trains << train8 = PassengerTrain.new('h42-91', range: 'дальнего следования')
+    @trains << train9 = PassengerTrain.new('j15-3g', range: 'дальнего следования')
+    @trains << train10 = CargoTrain.new('b2373', engine: 'электро')
+    @trains << train11 = CargoTrain.new('z31-7z', engine: 'электро')
+
     @unused_carriages << carriage1 = CargoCarriage.new('c143', 50)
     @unused_carriages << carriage2 = CargoCarriage.new('c221', 50)
     @unused_carriages << carriage3 = CargoCarriage.new('c342', 40)
@@ -53,7 +53,7 @@ module Seed
     45.times { carriage8.take_seat }
     35.times { carriage9.take_seat }
     25.times { carriage10.take_seat }
-    
+
     train1.add_carriage(carriage1)
     train1.add_carriage(carriage2)
     train1.add_carriage(carriage3)
@@ -73,7 +73,6 @@ module Seed
     @stations[2].accept_train(trains[3])
     @stations[3].accept_train(trains[4])
 
-
     @routes << route1 = Route.new(station1, station7)
     route1.add_station(station2)
     route1.add_station(station3)
@@ -83,5 +82,4 @@ module Seed
     route2.add_station(station10)
     route2.add_station(station11)
   end
-
 end

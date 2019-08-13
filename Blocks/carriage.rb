@@ -8,7 +8,7 @@ class Carriage
     @type = type
     validate!
   end
-  
+
   def valid?
     validate!
   rescue
@@ -18,8 +18,8 @@ class Carriage
   protected
 
   def validate!
-    raise "Номер вагона не может быть пустым" unless number
-    raise "Номер вагона имеет неправильный формат" if number !~ CARRIAGE_NUMBER_FORMAT
+    raise 'Номер вагона не может быть пустым' unless number
+    raise 'Номер вагона имеет неправильный формат' if number !~ CARRIAGE_NUMBER_FORMAT
 
     true
   end

@@ -1,11 +1,9 @@
 class PassengerTrain < Train
-
   TRAIN_TYPE = 'passenger'
 
-  def initialize(number, range = 'пригородный')
+  def initialize(number, options = {})
     super
     @type = TRAIN_TYPE
-    @range = range
+    @range = options[:range] || 'пригородный'
   end
-
 end

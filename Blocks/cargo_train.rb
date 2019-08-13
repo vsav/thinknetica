@@ -1,11 +1,9 @@
 class CargoTrain < Train
-
   TRAIN_TYPE = 'cargo'
 
-  def initialize(number, engine = 'электро')
+  def initialize(number, options = {})
     super
     @type = TRAIN_TYPE
-    @engine = engine
+    @engine = options[:engine] || 'электро'
   end
-  
 end

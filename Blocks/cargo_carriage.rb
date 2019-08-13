@@ -8,11 +8,10 @@ class CargoCarriage < Carriage
   end
 
   def take_capacity(volume)
-    @taken_capacity += volume if (taken_capacity + volume) < capacity
+    @taken_capacity += volume if (@taken_capacity + volume) <= @capacity
   end
 
   def capacity_left
     @capacity - @taken_capacity
   end
-
 end

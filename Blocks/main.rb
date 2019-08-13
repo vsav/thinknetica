@@ -13,24 +13,24 @@ require_relative './passenger_train.rb'
 
 rr = RailRoad.new
 rr.seed
-system "clear" 
-#rr.main_menu
+system 'clear'
+# rr.main_menu
 
-#puts "Найти поезд: "
-#Train.find('a1278')
-#Train.find('p03-29')
-#puts
-#puts "Количество экземпляров: "
-#puts "Route: #{Route.instances}"
-#puts "CargoTrain: #{CargoTrain.instances}"
-#puts "PassengerTrain: #{PassengerTrain.instances}"
-#puts "Station: #{Station.instances}"
-#puts
-#Station.all
+# puts "Найти поезд: "
+# Train.find('a1278')
+# Train.find('p03-29')
+# puts
+# puts "Количество экземпляров: "
+# puts "Route: #{Route.instances}"
+# puts "CargoTrain: #{CargoTrain.instances}"
+# puts "PassengerTrain: #{PassengerTrain.instances}"
+# puts "Station: #{Station.instances}"
+# puts
+# Station.all
 
 rr.stations.each do |station|
   puts "Поезда на станции #{station.name}"
-  puts '*'*80
+  puts '*' * 80
   station.each_train do |train|
     puts "Поезд № #{train.number} | тип #{train.type} | количечство вагонов: #{train.carriages.size}"
     puts
@@ -48,8 +48,10 @@ rr.stations.each do |station|
       end
     end
     puts
-    puts '*'*80
+    puts '*' * 80
     puts
   end
-  puts '*'*80
+  puts '*' * 80
 end
+
+

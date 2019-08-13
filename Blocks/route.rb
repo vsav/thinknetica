@@ -8,24 +8,22 @@ class Route
   end
 
   def add_station(station)
-    @stations.insert(-2, station) #добавляем станции между начальной и конечной
-    #puts "Станция #{station.name} добавлена в маршрут"
+    @stations.insert(-2, station) # добавляем станции между начальной и конечной
   end
 
   def remove_station(station)
     if @stations[0] == station || @stations[-1] == station
-      puts "Можно удалять только промежуточные станции маршрута"
+      puts 'Можно удалять только промежуточные станции маршрута'
     elsif @stations.include?(station)
       @stations.delete(station)
-      #puts "Станция #{station.name} удалена из маршрута"
     else
-      puts "Такой станции на маршруте нет"
+      puts 'Такой станции на маршруте нет'
     end
   end
 
   def show_route
     puts "Станции на маршруте #{@stations[0].name} - #{@stations[-1].name}"
-    @stations.each_with_index { |station, i| puts "#{i + 1}. #{station.name}" }
+    @stations.each.with_index(1) { |station, i| puts "#{i}. #{station.name}" }
     puts
   end
 end

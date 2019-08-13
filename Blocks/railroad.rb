@@ -3,14 +3,13 @@ class RailRoad
   attr_reader :station
 
   include Seed
-  
+
   def initialize
     @trains = []
     @routes = []
     @stations = []
     @unused_carriages = []
   end
-  
 
   def train_menu
     all_trains
@@ -24,59 +23,59 @@ class RailRoad
       @train = @trains[user_input - 1]
       puts "Выбран поезд #{@train.number}"
       puts
-      puts "1. Назначить маршрут"
-      puts "2. Добавить вагоны к поезду"
-      puts "3. Отцепить вагоны от поезда"
-      puts "4. Переместить поезд"
-      puts "5. Выбрать другой поезд"
-      puts "0. Главное меню"
+      puts '1. Назначить маршрут'
+      puts '2. Добавить вагоны к поезду'
+      puts '3. Отцепить вагоны от поезда'
+      puts '4. Переместить поезд'
+      puts '5. Выбрать другой поезд'
+      puts '0. Главное меню'
       puts
-      print "Выберите пункт меню "
+      print 'Выберите пункт меню '
       user_input = gets.chomp.to_i
       case user_input
-        when 1
-          all_routes
-          print "Выберите маршрут: "
-          route = gets.chomp.to_i
-          @train.set_route(@routes[route - 1])
-          train_menu
-        when 2
-          all_carriages
-          print "Выберите вагон: "
-          carriage = gets.chomp.to_i
-          @train.add_carriage(@unused_carriages[carriage - 1])
-          train_menu
-        when 3
-          train_carriages
-          print "Выберите вагон: "
-          carriage = gets.chomp.to_i
-          @train.remove_carriage(@train.carriages[carriage - 1])
-          train_menu
-        when 4
-          direction = ''
-          until direction == 0
-            unless @train.route.nil? #
-              move_train_menu
-              direction = gets.chomp.to_i
-              if direction == 1
-                @train.move_next
-              elsif direction == 2
-                @train.move_prev
-              end
-            else
-              puts "Сначала назначьте маршрут"
-              train_menu
+      when 1
+        all_routes
+        print 'Выберите маршрут: '
+        route = gets.chomp.to_i
+        @train.set_route(@routes[route - 1])
+        train_menu
+      when 2
+        all_carriages
+        print 'Выберите вагон: '
+        carriage = gets.chomp.to_i
+        @train.add_carriage(@unused_carriages[carriage - 1])
+        train_menu
+      when 3
+        train_carriages
+        print 'Выберите вагон: '
+        carriage = gets.chomp.to_i
+        @train.remove_carriage(@train.carriages[carriage - 1])
+        train_menu
+      when 4
+        direction = ''
+        until direction == 0
+          unless @train.route.nil? #
+            move_train_menu
+            direction = gets.chomp.to_i
+            if direction == 1
+              @train.move_next
+            elsif direction == 2
+              @train.move_prev
             end
+          else
+            puts 'Сначала назначьте маршрут'
+            train_menu
           end
-          #main_menu
-        when 5
-          train_menu
-        when 0
-          main_menu
+        end
+        #main_menu
+      when 5
+        train_menu
+      when 0
+        main_menu
       end
     end
   end
-  
+
   def all_trains
     @trains.each.with_index(1) do |train, index| #индексы начнутся не с 0, а с 1
       puts "#{index}. #{train.number} | #{train.type}"
@@ -102,18 +101,18 @@ class RailRoad
   end
 
   def create_station
-    print "Введите название для новой станции: "
-    @stations << Station.new(gets.chomp)
+    print 'Введите название для новой станции: '
+    @stations << Station.new(gets.strip.capitalize)
     station_menu
   end
 
   def station_menu
     user_input = ''
     until user_input == 0
-      puts "1. Создать станцию"
-      puts "2. Посмотреть список всех станций"
-      puts "3. Посмотреть поезда на станции"
-      puts "0. Главное меню"
+      puts '1. Создать станцию'
+      puts '2. Посмотреть список всех станций'
+      puts '3. Посмотреть поезда на станции'
+      puts '0. Главное меню'
 
       print 'Выберите пункт меню: '
       user_input = gets.chomp.to_i
@@ -126,7 +125,7 @@ class RailRoad
       elsif user_input == 3
         all_stations
         puts
-        print "Выберите станцию: "
+        print 'Выберите станцию: '
         station = gets.chomp.to_i
         @stations[station - 1].trains_list
         puts
@@ -138,35 +137,36 @@ class RailRoad
 
   def create_train
     begin
-      print "Введите номер поезда: "
+      print 'Введите номер поезда: '
       number = gets.strip
       train = Train.new(number)
       train.valid?
     rescue => error
       puts "#{error}"
-      puts "Номер поезда должен иметь следующий формат: три буквы или цифры в любом порядке, необязательный дефис и еще 2 буквы или цифры после дефиса. "
+      puts 'Номер поезда должен иметь следующий формат: \
+три буквы или цифры в любом порядке, необязательный дефис и еще 2 буквы или цифры после дефиса. '
       retry
     end
     begin
-      print "Выберите тип поезда: 1 - cargo, 2 - passenger):"
+      print 'Выберите тип поезда: 1 - cargo, 2 - passenger):'
       type = gets.strip
-    raise unless type == '1' || type == '2'
+      raise unless type == '1' || type == '2'
     rescue => error
       puts "#{error}"
-      puts "Введите 1 или 2"
+      puts 'Введите 1 или 2'
       retry
     end
     begin
       if type == '1'
-        puts "Выберите тип двигателя"
-        print "1 - дизель, 2 - электро: "
+        puts 'Выберите тип двигателя'
+        print '1 - дизель, 2 - электро: '
         choise = gets.strip
         choise == '1' ? engine = 'дизель' : engine = 'электро'
         train = CargoTrain.new(number, engine)
         @trains << train if train.valid?
       elsif type == '2'
-        puts "Выберите класс поезда"
-        print "1 - пригородный, 2 - дальнего следования: "
+        puts 'Выберите класс поезда'
+        print '1 - пригородный, 2 - дальнего следования: '
         choise = gets.strip
         choise == '1' ? range = 'пригородный' : range = 'дальнего следования'
         train = PassengerTrain.new(number, range)
@@ -174,19 +174,19 @@ class RailRoad
       end
       raise unless choise == '1' || choise == '2'
     rescue
-      puts "Введите 1 или 2"
+      puts 'Введите 1 или 2'
       retry
     end
     puts "Создан поезд №#{train.number} типа #{train.type}"
     puts
     begin
-      puts "Создать еще один поезд? "
-      print "1 - Создать, 0 - Главное меню: "
+      puts 'Создать еще один поезд? '
+      print '1 - Создать, 0 - Главное меню: '
       choise = gets.strip
     raise unless choise == '1' || choise == '0'
     rescue => error
       puts "#{error}"
-      puts "Введите 1 или 2"
+      puts 'Введите 1 или 2'
       retry
     end
 
@@ -198,18 +198,18 @@ class RailRoad
   end
 
   def move_train_menu
-    puts "1. Вперед"
-    puts "2. Назад"
-    puts "0. Главное меню"
+    puts '1. Вперед'
+    puts '2. Назад'
+    puts '0. Главное меню'
     puts
-    print "В какую сторону перепестить поезд? "
+    print 'В какую сторону перепестить поезд? '
   end
 
   def route_menu
-    puts "1. Создать маршрут"
-    puts "2. Посмотреть список всех маршрутов"
-    puts "3. Добавить станцию в маршрут"
-    puts "0. Главное меню"
+    puts '1. Создать маршрут'
+    puts '2. Посмотреть список всех маршрутов'
+    puts '3. Добавить станцию в маршрут'
+    puts '0. Главное меню'
 
     print 'Выберите пункт меню: '
     user_input = gets.chomp.to_i
@@ -224,11 +224,11 @@ class RailRoad
     elsif user_input == 3
       all_routes
       puts
-      print "Выберите маршрут "
+      print 'Выберите маршрут '
       route = gets.chomp.to_i
       all_stations
       puts
-      print "Выберите станцию "
+      print 'Выберите станцию '
       station = gets.chomp.to_i
       @routes[route - 1].add_station(@stations[station - 1])
     end
@@ -238,7 +238,7 @@ class RailRoad
   def all_routes
     @routes.each.with_index(1) do |route, index|
       puts "#{index}. #{route.stations[0].name} - #{route.stations[-1].name}"
-      puts "Включает станции: "
+      puts 'Включает станции: '
       route.stations.each do |station|
         puts "#{station.name}"
       end
@@ -247,16 +247,15 @@ class RailRoad
   end
 
   def create_route
-    print "Введите название начальной станции: "
-    first_station = Station.new(gets.chomp)
-    print "Введите название конечной станции: "
-    last_station = Station.new(gets.chomp)
+    print 'Введите название начальной станции: '
+    first_station = Station.new(gets.strip.capitalize)
+    print 'Введите название конечной станции: '
+    last_station = Station.new(gets.strip.capitalize)
     @routes << Route.new(first_station, last_station)
     route_menu
   end
 
   def main_menu
-
     puts 'Программа управления железнодорожной станцией'
     puts 'Выберите пункт меню, нажав соответствующую цифру'
     puts '1. Вывести информацию о поездах'
@@ -282,7 +281,7 @@ class RailRoad
         main_menu
       end
     end
-    puts "Bye!"
+    puts 'Bye!'
     exit
-  end 
+  end
 end

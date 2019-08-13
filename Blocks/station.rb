@@ -25,10 +25,8 @@ class Station
 
   def accept_train(train)
     @trains << train unless @trains.include?(train)
-    #puts "Поезд № #{train.number} прибыл на станцию '#{@name}'"
-    #puts
   end
-  
+
   def trains_list
     puts "Все поезда на станции '#{@name}' в данный момент: "
     puts '*' * 67
@@ -64,8 +62,8 @@ class Station
   protected
 
   def validate!
-    raise "Название станции должно содержать хотя бы 2 буквы" unless name || name.length < 2
-    raise "Название станции имеет неправильный формат" if name !~ STATION_NAME_FORMAT
+    raise 'Название станции должно содержать хотя бы 2 буквы' unless name || name.length < 2
+    raise 'Название станции имеет неправильный формат' if name !~ STATION_NAME_FORMAT
 
     true
   end

@@ -8,11 +8,10 @@ class PassengerCarriage < Carriage
   end
 
   def take_seat
-    @seats_taken += 1
+    @seats_taken += 1 if @seats_taken < @seats
   end
 
   def seats_left
     @seats -= @seats_taken
   end
-
 end
