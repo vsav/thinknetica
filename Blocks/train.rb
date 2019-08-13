@@ -141,20 +141,20 @@ class Train
     end
   end
 
-    protected
+  protected
 
-    def move # чтобы этот метод нельзя было вызвать напрямую без проверки на начальную и конечную станции
-      @current_station.trains.delete(self)
-      @next_station = @route.stations[@station_index]
-      @prev_station = @current_station
-      @current_station = @next_station
-      @current_station.accept_train(self)
-    end
+  def move # чтобы этот метод нельзя было вызвать напрямую без проверки на начальную и конечную станции
+    @current_station.trains.delete(self)
+    @next_station = @route.stations[@station_index]
+    @prev_station = @current_station
+    @current_station = @next_station
+    @current_station.accept_train(self)
+  end
 
-    def validate!
-      raise 'Номер поезда не может быть пустым' unless number
-      raise 'Номер поезда имеет неправильный формат' if number !~ TRAIN_NUMBER_FORMAT
+  def validate!
+    raise 'Номер поезда не может быть пустым' unless number
+    raise 'Номер поезда имеет неправильный формат' if number !~ TRAIN_NUMBER_FORMAT
 
-      true
-    end
+    true
+  end
 end

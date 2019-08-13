@@ -32,19 +32,20 @@ rr.stations.each do |station|
   puts "Поезда на станции #{station.name}"
   puts '*' * 80
   station.each_train do |train|
-    puts "Поезд № #{train.number} | тип #{train.type} | количечство вагонов: #{train.carriages.size}"
+    puts "Поезд № #{train.number} | тип #{train.type} |" \ 
+         " количечство вагонов: #{train.carriages.size}"
     puts
     train.each_carriage do |carriage|
       if carriage.type == 'cargo'
-        puts "Вагон № #{carriage.number} | тип #{carriage.type}  | \
-вместительность: #{carriage.capacity} | \
-загруженность: #{carriage.taken_capacity} | \
-доступный объем: #{carriage.capacity_left}"
+        puts "Вагон № #{carriage.number} | тип #{carriage.type}  |" \
+             " вместительность: #{carriage.capacity} |" \
+             " загруженность: #{carriage.taken_capacity} |" \
+             " доступный объем: #{carriage.capacity_left}"
       elsif carriage.type == 'passenger'
-        puts "Вагон № #{carriage.number} | тип #{carriage.type} | \
-всего мест: #{carriage.seats} | \
-занято мест: #{carriage.seats_taken} | \
-свободных мест: #{carriage.seats_left}"
+        puts "Вагон № #{carriage.number} | тип #{carriage.type} |" \
+             " всего мест: #{carriage.seats} |" \
+             " занято мест: #{carriage.seats_taken} |" \
+             " свободных мест: #{carriage.seats_left}"
       end
     end
     puts
