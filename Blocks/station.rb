@@ -31,8 +31,8 @@ class Station
     puts "Все поезда на станции '#{@name}' в данный момент: "
     puts '*' * 67
     @trains.each do |train|
-      puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' |" \
-           " количество вагонов: #{train.carriages.size}"
+      puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' | " \
+           "количество вагонов: #{train.carriages.size}"
     end
     puts
   end
@@ -43,8 +43,8 @@ class Station
     puts
     @trains.select do |train|
       train.type == train_type
-      puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' |" \
-           " количество вагонов: #{train.carriages.size}"
+      puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' | " \
+           "количество вагонов: #{train.carriages.size}"
     end
     puts
   end
