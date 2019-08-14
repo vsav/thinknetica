@@ -19,7 +19,7 @@ class Station
 
   def valid?
     validate!
-  rescue
+  rescue RuntimeError
     false
   end
 
@@ -40,13 +40,12 @@ class Station
   def trains_by_type(train_type)
     puts "Поезда типа #{train_type} на станции '#{@name}' в данный момент: "
     puts '*' * 67
-    puts
-    @trains.select do |train|
-      train.type == train_type
-      puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' | " \
-           "количество вагонов: #{train.carriages.size}"
+    @trains.each do |train|
+      if train.type == train_type
+        puts "№ поезда: #{train.number} | тип поезда: '#{train.type}' | " \
+             "количество вагонов: #{train.carriages.size}"
+      end
     end
-    puts
   end
 
   def send_train(train)

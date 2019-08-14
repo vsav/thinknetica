@@ -12,7 +12,7 @@ class Route
   end
 
   def remove_station(station)
-    if @stations[0] == station || @stations[-1] == station
+    if [@stations[0], @stations[-1]].include?(station)
       puts 'Можно удалять только промежуточные станции маршрута'
     elsif @stations.include?(station)
       @stations.delete(station)

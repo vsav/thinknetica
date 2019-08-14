@@ -8,7 +8,7 @@ class Train
 
   @@all_trains = {}
 
-  def initialize(number, options = {})
+  def initialize(number, _options = {})
     @number = number
     @carriages = []
     @speed = 0
@@ -19,7 +19,7 @@ class Train
 
   def valid?
     validate!
-  rescue
+  rescue RuntimeError
     false
   end
 
@@ -40,7 +40,7 @@ class Train
   end
 
   def add_carriage(carriage)
-    if @speed > 0
+    if @speed.positive?
       puts 'Невозможно прицепить вагон пока поезд движется'
     elsif @type != carriage.type
       puts 'Тип вагона не совпадает с типом поезда'
@@ -50,7 +50,7 @@ class Train
   end
 
   def remove_carriage(carriage)
-    if @speed > 0
+    if @speed.positive?
       puts 'Невозможно отцепить вагон пока поезд движется'
     elsif @carriages.include? carriage
       @carriages.delete(carriage)
@@ -94,13 +94,7 @@ class Train
 
   def near_stations
     puts "Поезд № #{@number} находится на станции #{@current_station.name}"
-    if @station_index.zero?
-      puts 'Это первая станция маршрута'
-    elsif @station_index + 1 == @route.stations.size
-      puts 'Это конечная станция маршрута'
-    end
-
-    if @station_index.pozitive?
+    if @station_index.positive?
       puts "Предыдущая станция на маршруте - #{prev_station.name}"
     elsif @station_index < @route.stations.size
       puts "Следующая станция на маршруте - #{next_station.name}"
@@ -135,16 +129,21 @@ class Train
 
   def each_carriage(&block)
     if block_given?
-      #@carriages.each { |carriage| yield(carriage) }
+      # @carriages.each { |carriage| yield(carriage) }
       @carriages.each(&block)
     else
       puts 'Блок не передан'
     end
   end
 
+  def route?
+    route || puts('маршрут не назначен')
+  end
+
   protected
 
-  def move # чтобы этот метод нельзя было вызвать напрямую без проверки на начальную и конечную станции
+  # чтобы этот метод нельзя было вызвать напрямую без проверки на начальную и конечную станции
+  def move
     @current_station.trains.delete(self)
     @next_station = @route.stations[@station_index]
     @prev_station = @current_station

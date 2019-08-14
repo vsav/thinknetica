@@ -12,68 +12,80 @@ class RailRoad
   end
 
   def train_menu
+    @train ||= select_train
+    puts "Выбран поезд #{@train.number}"
+    puts
+    puts '1. Назначить маршрут'
+    puts '2. Добавить вагоны к поезду'
+    puts '3. Отцепить вагоны от поезда'
+    puts '4. Переместить поезд'
+    puts '5. Выбрать другой поезд'
+    puts '0. Главное меню'
+    puts
+    print 'Выберите пункт меню '
+    user_input = gets.chomp.to_i
+    case user_input
+    when 1
+      accept_route
+      train_menu
+    when 2
+      all_carriages
+      print 'Выберите вагон: '
+      carriage = gets.chomp.to_i
+      @train.add_carriage(@unused_carriages[carriage - 1])
+      train_menu
+    when 3
+      train_carriages
+      print 'Выберите вагон: '
+      carriage = gets.chomp.to_i
+      @train.remove_carriage(@train.carriages[carriage - 1])
+      train_menu
+    when 4
+      if @train.route.nil?
+        puts 'Сначала назначьте маршрут'
+        train_menu
+      end
+      loop do
+        move_train_menu
+        case @direction
+        when 1
+          @train.move_next
+        when 2
+          @train.move_prev
+        when 0
+          main_menu
+          break
+        end
+      end
+    when 5
+      select_train
+    when 0
+      main_menu
+    end
+  end
+
+  def accept_route
+    all_routes
+    print 'Выберите маршрут: '
+    route = gets.chomp.to_i
+    @train.route = (@routes[route - 1])
+  end
+
+  def select_train
     all_trains
     puts
     print 'Выберите поезд (порядковый номер) или введите 0 для возврата в главное меню: '
     user_input = gets.chomp.to_i
     puts
-    if user_input == 0
+    if user_input.zero?
       main_menu
     else
       @train = @trains[user_input - 1]
-      puts "Выбран поезд #{@train.number}"
-      puts
-      puts '1. Назначить маршрут'
-      puts '2. Добавить вагоны к поезду'
-      puts '3. Отцепить вагоны от поезда'
-      puts '4. Переместить поезд'
-      puts '5. Выбрать другой поезд'
-      puts '0. Главное меню'
-      puts
-      print 'Выберите пункт меню '
-      user_input = gets.chomp.to_i
-      case user_input
-      when 1
-        all_routes
-        print 'Выберите маршрут: '
-        route = gets.chomp.to_i
-        @train.route=(@routes[route - 1])
-        train_menu
-      when 2
-        all_carriages
-        print 'Выберите вагон: '
-        carriage = gets.chomp.to_i
-        @train.add_carriage(@unused_carriages[carriage - 1])
-        train_menu
-      when 3
-        train_carriages
-        print 'Выберите вагон: '
-        carriage = gets.chomp.to_i
-        @train.remove_carriage(@train.carriages[carriage - 1])
-        train_menu
-      when 4
-        direction = ''
-        until direction == 0
-          if @train.route.nil?
-            puts 'Сначала назначьте маршрут'
-            train_menu
-          else
-            move_train_menu
-            direction = gets.chomp.to_i
-            @train.move_next if direction == 1
-            @train.move_prev if direction == 2
-          end
-        end
-      when 5
-        train_menu
-      when 0
-        main_menu
-      end
     end
   end
 
   def all_trains
-    @trains.each.with_index(1) do |train, index| #индексы начнутся не с 0, а с 1
+    @trains.each.with_index(1) do |train, index|
       puts "#{index}. #{train.number} | #{train.type}"
     end
   end
@@ -103,42 +115,42 @@ class RailRoad
   end
 
   def station_menu
-    user_input = ''
-    until user_input == 0
-      puts '1. Создать станцию'
-      puts '2. Посмотреть список всех станций'
-      puts '3. Посмотреть поезда на станции'
-      puts '0. Главное меню'
-
-      print 'Выберите пункт меню: '
-      user_input = gets.chomp.to_i
-      if user_input == 1
-        create_station
-        station_menu
-      elsif user_input == 2
-        all_stations
-        station_menu
-      elsif user_input == 3
-        all_stations
-        puts
-        print 'Выберите станцию: '
-        station = gets.chomp.to_i
-        @stations[station - 1].trains_list
-        puts
-        station_menu
-      end
+    puts '1. Создать станцию'
+    puts '2. Посмотреть список всех станций'
+    puts '3. Посмотреть поезда на станции'
+    puts '0. Главное меню'
+    print 'Выберите пункт меню: '
+    user_input = gets.chomp.to_i
+    case user_input
+    when 1
+      create_station
+      station_menu
+    when 2
+      all_stations
+      station_menu
+    when 3
+      all_stations
+      puts
+      print 'Выберите станцию: '
+      station = gets.chomp.to_i
+      @stations[station - 1].trains_list
+      puts
+      station_menu
+    when 0
+      main_menu
+    else
+      station_menu
     end
-    main_menu
   end
 
   def create_train
     begin
-      print 'Введите номер поезда: '
+      print 'Введите номер поезда: (например А2312) '
       number = gets.strip
       train = Train.new(number)
       train.valid?
-    rescue => e
-      puts "#{e}"
+    rescue RuntimeError => e
+      puts e.to_s
       puts 'Номер поезда должен иметь следующий формат: ' \
            'три буквы или цифры в любом порядке, необязательный дефис ' \
            'и еще 2 буквы или цифры после дефиса. '
@@ -147,9 +159,9 @@ class RailRoad
     begin
       print 'Выберите тип поезда: 1 - cargo, 2 - passenger):'
       type = gets.strip
-      raise unless type == '1' || type == '2'
-    rescue => e
-      puts "#{e}"
+      raise unless %w[1 2].include?(type)
+    rescue StandardError => e
+      puts e.to_s
       puts 'Введите 1 или 2'
       retry
     end
@@ -158,40 +170,38 @@ class RailRoad
         puts 'Выберите тип двигателя'
         print '1 - дизель, 2 - электро: '
         choise = gets.strip
-        choise == '1' ? engine = 'дизель' : engine = 'электро'
+        case choise
+        when 1
+          engine = 'дизель'
+        when 2
+          engine = 'электро'
+        end
         train = CargoTrain.new(number, engine)
         @trains << train if train.valid?
       elsif type == '2'
         puts 'Выберите класс поезда'
         print '1 - пригородный, 2 - дальнего следования: '
         choise = gets.strip
-        choise == '1' ? range = 'пригородный' : range = 'дальнего следования'
+        case choise
+        when 1
+          range = 'пригородный'
+        when 2
+          range = 'дальнего следования'
+        end
         train = PassengerTrain.new(number, range)
         @trains << train if train.valid?
       end
-      raise unless choise == '1' || choise == '2'
-    rescue => e
-      puts "#{e}"
+      raise unless %w[1 2].include?(choise)
+    rescue StandardError => e
+      puts e.to_s
       puts 'Введите 1 или 2'
       retry
     end
     puts "Создан поезд №#{train.number} типа #{train.type}"
-    puts
-    begin
-      puts 'Создать еще один поезд? '
-      print '1 - Создать, 0 - Главное меню: '
-      choise = gets.strip
-      raise unless choise == '1' || choise == '0'
-    rescue => e
-      puts "#{e}"
-      puts 'Введите 1 или 2'
-      retry
-    end
-    if choise == '1'
-      create_train
-    elsif choise == '0'
-      main_menu
-    end
+    puts 'Создать еще один поезд? '
+    print '1 - Создать, 0 - Главное меню: '
+    choise = gets.strip
+    choise == '1' ? create_train : main_menu
   end
 
   def move_train_menu
@@ -200,6 +210,7 @@ class RailRoad
     puts '0. Главное меню'
     puts
     print 'В какую сторону перепестить поезд? '
+    @direction = gets.chomp.to_i
   end
 
   def route_menu
@@ -238,7 +249,7 @@ class RailRoad
       puts "#{index}. #{route.stations[0].name} - #{route.stations[-1].name}"
       puts 'Включает станции: '
       route.stations.each do |station|
-        puts "#{station.name}"
+        puts station.name.to_s
       end
       puts
     end
@@ -277,6 +288,8 @@ class RailRoad
       route_menu
     when 4
       create_train
+    else
+      main_menu
     end
   end
 end

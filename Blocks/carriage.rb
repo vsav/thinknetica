@@ -11,7 +11,7 @@ class Carriage
 
   def valid?
     validate!
-  rescue
+  rescue RuntimeError
     false
   end
 

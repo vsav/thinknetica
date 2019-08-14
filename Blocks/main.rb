@@ -14,8 +14,9 @@ require_relative './passenger_train.rb'
 rr = RailRoad.new
 rr.seed
 system 'clear'
-# rr.main_menu
-
+rr.main_menu
+# rr.trains[0].route = rr.routes[0]
+# rr.trains[0].near_stations
 # puts "Найти поезд: "
 # Train.find('a1278')
 # Train.find('p03-29')
