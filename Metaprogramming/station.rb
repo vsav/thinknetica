@@ -23,12 +23,6 @@ class Station
     register_instance
   end
 
-  # def valid?
-  #  validate!
-  # rescue RuntimeError
-  #  false
-  # end
-
   def accept_train(train)
     @trains << train unless @trains.include?(train)
   end
@@ -60,17 +54,9 @@ class Station
 
   def each_train(&block)
     if block_given?
-      # @trains.each { |train| yield(train) }
       @trains.each(&block)
     else
       puts 'Блок не передан'
     end
   end
-
-  # def validate!
-  # raise 'Название станции должно содержать хотя бы 2 буквы' unless name || name.length < 2
-  # raise 'Название станции имеет неправильный формат' if name !~ STATION_NAME_FORMAT
-  #
-  #   true
-  # end
 end

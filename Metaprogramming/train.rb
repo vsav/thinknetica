@@ -5,8 +5,8 @@ class Train
   include Validation
 
   attr_reader :number, :type, :route
-  attr_accessor :carriages, :current_station
-  attr_accessor_with_history :speed
+  attr_accessor :current_station
+  attr_accessor_with_history :speed, :carriages
   strong_attr_accessor :color, String
 
   TRAIN_NUMBER_FORMAT = /^[a-z\d]{3}(-)*[a-z\d]{2}$/i
@@ -21,12 +21,6 @@ class Train
     @@all_trains[number] = self
     register_instance
   end
-
-  # def valid?
-  #  validate!
-  # rescue RuntimeError
-  #  false
-  # end
 
   def self.find(number)
     puts @@all_trains[number]
@@ -134,7 +128,6 @@ class Train
 
   def each_carriage(&block)
     if block_given?
-      # @carriages.each { |carriage| yield(carriage) }
       @carriages.each(&block)
     else
       puts 'Блок не передан'
@@ -155,11 +148,4 @@ class Train
     @current_station = @next_station
     @current_station.accept_train(self)
   end
-
-  # def validate!
-  # raise 'Номер поезда не может быть пустым' unless number
-  # raise 'Номер поезда имеет неправильный формат' if number !~ TRAIN_NUMBER_FORMAT
-  #
-  #  true
-  # end
 end

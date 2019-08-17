@@ -21,7 +21,9 @@ rr.trains[0].speed = 10
 rr.trains[0].speed = 15
 rr.trains[0].speed = 20
 rr.trains[0].speed = 10
-rr.trains[0].speed_history
+rr.trains[0].speed = 15
+puts rr.trains[0].speed_history.inspect
+puts rr.trains[0].carriages_history.inspect
 rr.trains[1].speed_history
 rr.trains[0].color = 'green'
 puts rr.trains[0].color

@@ -1,7 +1,6 @@
 module Accessors
   def self.included(base)
     base.extend ClassMethods
-    base.send :include, InstanceMethods
   end
 
   module ClassMethods
@@ -14,17 +13,16 @@ module Accessors
         end
 
         define_method("#{method}=") do |value|
-          instance_variable_set("@#{method}", value)
           @history ||= {}
           @value_history ||= []
           @value_history << instance_variable_get("@#{method}".to_sym)
+          instance_variable_set("@#{method}", value)
           @history[method] = @value_history
         end
 
         define_method("#{method}_history") do
           @history ||= {}
-          print "История изменений значения #{method} у объекта #{self}: "
-          @history.empty? ? puts('значения не изменялись') : puts(@history[method].inspect)
+          @history[method]
         end
       end
     end
@@ -38,8 +36,5 @@ module Accessors
         value.class == type ? instance_variable_set("@#{name}", value) : raise('Incorrect value type')
       end
     end
-  end
-
-  module InstanceMethods
   end
 end
