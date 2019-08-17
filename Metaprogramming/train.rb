@@ -5,8 +5,8 @@ class Train
   include Validation
 
   attr_reader :number, :type, :route
-  attr_accessor :current_station
-  attr_accessor_with_history :speed, :carriages
+  attr_accessor :current_station, :carriages
+  attr_accessor_with_history :speed
   strong_attr_accessor :color, String
 
   TRAIN_NUMBER_FORMAT = /^[a-z\d]{3}(-)*[a-z\d]{2}$/i

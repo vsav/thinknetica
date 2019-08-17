@@ -22,51 +22,25 @@ rr.trains[0].speed = 15
 rr.trains[0].speed = 20
 rr.trains[0].speed = 10
 rr.trains[0].speed = 15
+rr.trains[1].speed = 15
+rr.trains[1].speed = 20
 puts rr.trains[0].speed_history.inspect
-puts rr.trains[0].carriages_history.inspect
-rr.trains[1].speed_history
+puts rr.trains[1].speed_history.inspect
+
 rr.trains[0].color = 'green'
-puts rr.trains[0].color
 begin
   rr.trains[0].color = 1
 rescue RuntimeError => e
   puts e
 end
-
 s1 = Station.new('Москва')
 s1.valid?
-
-begin
-  Station.new('')
-rescue ArgumentError => e
-  puts e
-end
-
+Station.new('')
 rr.trains[0].valid?
-
-begin
-  Station.new('a')
-rescue ArgumentError => e
-  puts e
-end
-
-begin
-  Station.new(1)
-rescue ArgumentError => e
-  puts e
-end
-
-begin
-  CargoTrain.new('aaa')
-rescue ArgumentError => e
-  puts e
-end
-
-begin
-  PassengerTrain.new('')
-rescue ArgumentError => e
-  puts e
-end
+Station.new('a')
+Station.new(1)
+CargoTrain.new('aaa')
+PassengerTrain.new('')
 
 # rr.main_menu
 # rr.trains[0].route = rr.routes[0]

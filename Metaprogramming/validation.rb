@@ -5,18 +5,18 @@ module Validation
   end
 
   module ClassMethods
+    attr_reader :validations
     def validate(name, validation, *params)
       @validations ||= []
-      @validations << instance_variable_set('@validation', variable: name, type: validation, options: params)
+      @validations << { variable: name, type: validation, options: params.first }
     end
   end
 
   module InstanceMethods
     def validate!
-      validations = self.class.instance_variable_get('@validations')
-      validations.each do |validation|
-        @variable = get_var(validation[:variable])
-        send(validation[:type], validation[:variable], validation[:options][0])
+      self.class.validations.each do |validation|
+        variable_value = get_var(validation[:variable])
+        send("validate_#{validation[:type]}", variable_value, validation[:options])
       end
     end
 
@@ -24,7 +24,6 @@ module Validation
       validate!
       true
     rescue ArgumentError => e
-      puts e
       false
     end
 
@@ -34,16 +33,16 @@ module Validation
 
     protected
 
-    def presence(attribute, *)
-      raise ArgumentError, "#{self}: атрибут #{attribute} не может быть пустым" if @variable.to_s.empty?
+    def validate_presence(value, *)
+      raise ArgumentError, 'Value presence error' if value.to_s.empty?
     end
 
-    def format(attribute, format)
-      raise ArgumentError, "#{self}: атрибут #{attribute} имеет неправильный формат" if @variable !~ format
+    def validate_format(value, format)
+      raise ArgumentError, 'Value format error' if value !~ format
     end
 
-    def type(attribute, type)
-      raise ArgumentError, "#{self}: атрибут #{attribute} не соответствует типу" if @variable.class != type
+    def validate_type(value, value_type)
+      raise ArgumentError, 'Value type error' if value.class != value_type
     end
   end
 end

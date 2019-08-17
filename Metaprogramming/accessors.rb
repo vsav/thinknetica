@@ -15,9 +15,9 @@ module Accessors
         define_method("#{method}=") do |value|
           @history ||= {}
           @value_history ||= []
-          @value_history << instance_variable_get("@#{method}".to_sym)
           instance_variable_set("@#{method}", value)
-          @history[method] = @value_history
+          @value_history << instance_variable_get("@#{method}".to_sym)
+          @history[method] = @value_history[0...-1]
         end
 
         define_method("#{method}_history") do
@@ -27,13 +27,13 @@ module Accessors
       end
     end
 
-    def strong_attr_accessor(name, type)
+    def strong_attr_accessor(name, value_type)
       define_method(name) do
         instance_variable_get("@#{name}")
       end
 
       define_method("#{name}=") do |value|
-        value.class == type ? instance_variable_set("@#{name}", value) : raise('Incorrect value type')
+        value.class == value_type ? instance_variable_set("@#{name}", value) : raise('Incorrect value type')
       end
     end
   end
