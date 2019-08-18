@@ -13,10 +13,11 @@ module Validation
   end
 
   module InstanceMethods
+    attr_reader :variable
     def validate!
       self.class.validations.each do |validation|
-        variable_value = get_var(validation[:variable])
-        send("validate_#{validation[:type]}", variable_value, validation[:options])
+        value = get_var(validation[:variable])
+        send("validate_#{validation[:type]}", validation[:variable], value, validation[:options])
       end
     end
 
@@ -33,16 +34,16 @@ module Validation
 
     protected
 
-    def validate_presence(value, *)
-      raise ArgumentError, 'Value presence error' if value.to_s.empty?
+    def validate_presence(variable, value, *)
+      raise ArgumentError, "#{self}: in '#{variable}' - Value presence error" if value.to_s.empty?
     end
 
-    def validate_format(value, format)
-      raise ArgumentError, 'Value format error' if value !~ format
+    def validate_format(variable, value, format)
+      raise ArgumentError, "#{self}: in '#{variable}' - Value format error" if value !~ format
     end
 
-    def validate_type(value, value_type)
-      raise ArgumentError, 'Value type error' if value.class != value_type
+    def validate_type(variable, value, value_type)
+      raise ArgumentError, "#{self}: in '#{variable}' - Value type error" if value.class != value_type
     end
   end
 end

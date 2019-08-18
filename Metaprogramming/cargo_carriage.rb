@@ -1,9 +1,13 @@
 class CargoCarriage < Carriage
   attr_reader :capacity, :taken_capacity
-  def initialize(number, capacity)
+
+  validate :number, :presence
+  validate :number, :format, CARRIAGE_NUMBER_FORMAT
+  validate :capacity, :type, Integer
+
+  def initialize(number, options = {})
     super
     @type = 'cargo'
-    @capacity = capacity
     @taken_capacity = 0
   end
 

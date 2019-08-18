@@ -10,14 +10,16 @@ class Train
   strong_attr_accessor :color, String
 
   TRAIN_NUMBER_FORMAT = /^[a-z\d]{3}(-)*[a-z\d]{2}$/i
+  validate :number, :presence
+  validate :number, :format, TRAIN_NUMBER_FORMAT
 
   @@all_trains = {}
 
   def initialize(number, _options = {})
     @number = number
+    validate!
     @carriages = []
     @speed = 0
-    valid?
     @@all_trains[number] = self
     register_instance
   end

@@ -16,33 +16,31 @@ require_relative './passenger_train.rb'
 rr = RailRoad.new
 rr.seed
 system 'clear'
+rr.main_menu
 
-rr.trains[0].speed = 10
-rr.trains[0].speed = 15
-rr.trains[0].speed = 20
-rr.trains[0].speed = 10
-rr.trains[0].speed = 15
-rr.trains[1].speed = 15
-rr.trains[1].speed = 20
-puts rr.trains[0].speed_history.inspect
-puts rr.trains[1].speed_history.inspect
-
-rr.trains[0].color = 'green'
-begin
-  rr.trains[0].color = 1
-rescue RuntimeError => e
-  puts e
-end
-s1 = Station.new('Москва')
-s1.valid?
-Station.new('')
-rr.trains[0].valid?
-Station.new('a')
-Station.new(1)
-CargoTrain.new('aaa')
-PassengerTrain.new('')
-
-# rr.main_menu
+# rr.trains[0].speed = 10
+# rr.trains[0].speed = 15
+# rr.trains[0].speed = 20
+# rr.trains[0].speed = 10
+# rr.trains[0].speed = 15
+# rr.trains[1].speed = 15
+# rr.trains[1].speed = 20
+# puts rr.trains[0].speed_history.inspect
+# puts rr.trains[1].speed_history.inspect
+# rr.trains[0].color = 'green'
+# begin
+#  rr.trains[0].color = 1
+# rescue RuntimeError => e
+#  puts e
+# end
+# s1 = Station.new('Москва')
+# s1.valid?
+# Station.new('')
+# rr.trains[0].valid?
+# Station.new('a')
+# Station.new(1)
+# Train.new('aaa')
+# PassengerTrain.new('')
 # rr.trains[0].route = rr.routes[0]
 # rr.trains[0].near_stations
 # puts "Найти поезд: "

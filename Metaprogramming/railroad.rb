@@ -111,7 +111,9 @@ class RailRoad
   def create_station
     print 'Введите название для новой станции: '
     @stations << Station.new(gets.strip.capitalize)
-    station_menu
+  rescue ArgumentError => e
+    puts e.message
+    retry
   end
 
   def station_menu
@@ -148,56 +150,58 @@ class RailRoad
       print 'Введите номер поезда: (например А2312) '
       number = gets.strip
       train = Train.new(number)
-      train.valid?
-    rescue RuntimeError => e
-      puts e.to_s
-      puts 'Номер поезда должен иметь следующий формат: ' \
-           'три буквы или цифры в любом порядке, необязательный дефис ' \
-           'и еще 2 буквы или цифры после дефиса. '
+    rescue ArgumentError => e
+      puts e.message
       retry
     end
     begin
       print 'Выберите тип поезда: 1 - cargo, 2 - passenger):'
-      type = gets.strip
-      raise unless %w[1 2].include?(type)
-    rescue StandardError => e
-      puts e.to_s
-      puts 'Введите 1 или 2'
+      choise = gets.strip
+      raise 'Введите 1 или 2' unless %w[1 2].include?(choise)
+    rescue RuntimeError => e
+      puts e.message
       retry
     end
-    begin
-      if type == '1'
+    if choise == '1'
+      begin
         puts 'Выберите тип двигателя'
         print '1 - дизель, 2 - электро: '
         choise = gets.strip
-        case choise
-        when 1
-          engine = 'дизель'
-        when 2
-          engine = 'электро'
-        end
-        train = CargoTrain.new(number, engine)
-        @trains << train if train.valid?
-      elsif type == '2'
+        raise 'Введите 1 или 2' unless %w[1 2].include?(choise)
+      rescue RuntimeError => e
+        puts e.message
+        retry
+      end
+      case choise
+      when '1'
+        engine = 'дизель'
+      when '2'
+        engine = 'электро'
+      end
+      train = CargoTrain.new(number)
+      train.instance_variable_set('@engine', engine)
+      @trains << train
+    elsif choise == '2'
+      begin
         puts 'Выберите класс поезда'
         print '1 - пригородный, 2 - дальнего следования: '
         choise = gets.strip
-        case choise
-        when 1
-          range = 'пригородный'
-        when 2
-          range = 'дальнего следования'
-        end
-        train = PassengerTrain.new(number, range)
-        @trains << train if train.valid?
+        raise 'Введите 1 или 2' unless %w[1 2].include?(choise)
+      rescue RuntimeError => e
+        puts e.message
+        retry
       end
-      raise unless %w[1 2].include?(choise)
-    rescue StandardError => e
-      puts e.to_s
-      puts 'Введите 1 или 2'
-      retry
+      case choise
+      when '1'
+        range = 'пригородный'
+      when '2'
+        range = 'дальнего следования'
+      end
+      train = PassengerTrain.new(number)
+      train.instance_variable_set('@range', range)
+      @trains << train
     end
-    puts "Создан поезд №#{train.number} типа #{train.type}"
+    puts "Создан поезд #{train.inspect}"
     puts 'Создать еще один поезд? '
     print '1 - Создать, 0 - Главное меню: '
     choise = gets.strip
@@ -256,10 +260,20 @@ class RailRoad
   end
 
   def create_route
-    print 'Введите название начальной станции: '
-    first_station = Station.new(gets.strip.capitalize)
-    print 'Введите название конечной станции: '
-    last_station = Station.new(gets.strip.capitalize)
+    begin
+      print 'Введите название начальной станции: '
+      first_station = Station.new(gets.strip.capitalize)
+    rescue ArgumentError => e
+      puts e.message
+      retry
+    end
+    begin
+      print 'Введите название конечной станции: '
+      last_station = Station.new(gets.strip.capitalize)
+    rescue ArgumentError => e
+      puts e.message
+      retry
+    end
     @routes << Route.new(first_station, last_station)
     route_menu
   end

@@ -7,6 +7,6 @@ class CargoTrain < Train
   def initialize(number, options = {})
     super
     @type = TRAIN_TYPE
-    @engine = options[:engine] || 'электро'
+    @engine = options[:engine]
   end
 end

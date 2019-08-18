@@ -1,26 +1,17 @@
 class Carriage
   include Manufacturer
+  include Validation
   attr_reader :number, :type
   CARRIAGE_NUMBER_FORMAT = /^[c,p]{1}\d{3}$/i
 
-  def initialize(number, type)
+  validate :number, :presence
+  validate :number, :format, CARRIAGE_NUMBER_FORMAT
+  validate :type, String
+
+  def initialize(number, options = {})
     @number = number
-    @type = type
+    @seats = options[:seats]
+    @capacity = options[:capacity]
     validate!
-  end
-
-  def valid?
-    validate!
-  rescue RuntimeError
-    false
-  end
-
-  protected
-
-  def validate!
-    raise 'Номер вагона не может быть пустым' unless number
-    raise 'Номер вагона имеет неправильный формат' if number !~ CARRIAGE_NUMBER_FORMAT
-
-    true
   end
 end

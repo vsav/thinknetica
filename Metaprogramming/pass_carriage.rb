@@ -1,9 +1,13 @@
 class PassengerCarriage < Carriage
   attr_reader :seats, :seats_taken
-  def initialize(number, seats)
+
+  validate :number, :presence
+  validate :number, :format, CARRIAGE_NUMBER_FORMAT
+  validate :seats, :type, Integer
+
+  def initialize(number, options = {})
     super
     @type = 'passenger'
-    @seats = seats
     @seats_taken = 0
   end
 
